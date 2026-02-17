@@ -10,7 +10,6 @@ const FIREBASE_CONFIG = {
   storageBucket: "viagem-27f9b.firebasestorage.app",
   messagingSenderId: "1058015673641",
   appId: "1:1058015673641:web:9cbe457202f8be1c86cb38"
-  
 };
 
 const motivationalMessages = [
@@ -18,9 +17,7 @@ const motivationalMessages = [
   "Disciplina hoje, lembranças incríveis amanhã ✨",
   "Cada pagamento é um passo para o próximo destino 🚀",
   "Parceria financeira forte, sonhos reais!",
-  "Continuem assim: planejamento em casal é poder 💜",
-  "Isso ai minha gata, vamos conhecer esse mundo todo",
-  "O próximo é pro nosso casamento"
+  "Continuem assim: planejamento em casal é poder 💜"
 ];
 
 const storageKeys = {
@@ -538,6 +535,3 @@ async function init() {
 }
 
 init();
-
-
-
