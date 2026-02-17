@@ -1,10 +1,5 @@
 const MONTHLY_AMOUNT_PER_PERSON = 100;
-const DEPOSIT_DAY_VALUES = [
-  { day: 5, amount: 50 },
-  { day: 20, amount: 50 }
-];
 const PLAN_MONTHS = 10;
-const START_DATE = new Date("2025-02-20T00:00:00");
 
 // 1) Preencha com suas credenciais no Firebase Console.
 // 2) Ative Firestore Database.
@@ -40,7 +35,6 @@ let unsubscribeRealtime = null;
 let applyingRemoteUpdate = false;
 
 const state = {
-  schedule: [],
   payments: JSON.parse(localStorage.getItem(storageKeys.payments) || "[]"),
   expenses: JSON.parse(localStorage.getItem(storageKeys.expenses) || "[]"),
   trips: JSON.parse(localStorage.getItem(storageKeys.trips) || "[]"),
@@ -104,87 +98,34 @@ function saveState(markUpdated = true) {
   localStorage.setItem(storageKeys.coupleCode, state.coupleCode || "");
 }
 
-function toIsoLocal(dateObj) {
-  const y = dateObj.getFullYear();
-  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
-  const d = String(dateObj.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
+function renderPaymentsCalendar() {
+  const list = document.getElementById("paymentsCalendar");
+  list.innerHTML = "";
 
-function generateSchedule(startDate = START_DATE) {
-  const rows = [];
-  const people = ["Vini", "Nina"];
-
-  for (let i = 0; i < PLAN_MONTHS; i++) {
-    const currentDate = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1);
-
-    DEPOSIT_DAY_VALUES.forEach(({ day, amount }) => {
-      people.forEach((person) => {
-        const dateObj = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-        if (dateObj < startDate) return;
-
-        const isoDate = toIsoLocal(dateObj);
-        rows.push({
-          id: `${isoDate}-${person.toLowerCase()}`,
-          date: isoDate,
-          person,
-          amount
-        });
-      });
-    });
+  if (!state.payments.length) {
+    list.innerHTML = '<li class="calendar-empty">Nenhum pagamento registrado ainda.</li>';
+    return;
   }
 
-  return rows.sort((a, b) => new Date(a.date) - new Date(b.date));
-}
-
-function getPaymentByDate(date) {
-  return state.payments.find((entry) => entry.date === date) || null;
-}
-
-function renderSchedule() {
-  const table = document.getElementById("depositsTable");
-  table.innerHTML = "";
-
-  state.schedule.forEach((entry) => {
-    const row = document.createElement("tr");
-    row.className = "schedule-row";
-    row.dataset.date = entry.date;
-    row.innerHTML = `
-      <td>${formatDate(entry.date)}</td>
-      <td>${entry.person}</td>
-      <td>${formatCurrency(entry.amount)}</td>
-      <td class="payment-label neutral">Sem registro</td>
-    `;
-    table.appendChild(row);
-  });
-
-  updateAgendaStatus();
-}
-
-function updateAgendaStatus() {
-  const payments = JSON.parse(localStorage.getItem(storageKeys.payments) || "[]");
-  const rows = document.querySelectorAll("#depositsTable .schedule-row");
-
-  rows.forEach((row) => {
-    const rowDate = row.dataset.date;
-    const paymentLabel = row.querySelector(".payment-label");
-    const payment = payments.find((entry) => entry.date === rowDate);
-
-    row.classList.remove("paid", "pago");
-    paymentLabel.classList.remove("paid", "neutral");
-
-    if (payment) {
-      row.classList.add("paid", "pago");
-      paymentLabel.classList.add("paid");
-      paymentLabel.textContent = `Pago por ${payment.person}`;
-    } else {
-      paymentLabel.classList.add("neutral");
-      paymentLabel.textContent = "Sem registro";
-    }
-  });
+  state.payments
+    .slice()
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .forEach((payment) => {
+      const item = document.createElement("li");
+      item.className = "calendar-item pago";
+      item.innerHTML = `
+        <div>
+          <strong>${formatDate(payment.date)}</strong>
+          <small>${formatCurrency(payment.value)}</small>
+        </div>
+        <span class="payment-label paid">✓ Pago por ${payment.person}</span>
+      `;
+      list.appendChild(item);
+    });
 }
 
 function renderTrips() {
+
   const list = document.getElementById("tripsList");
   const tripSelect = document.getElementById("expenseTripId");
 
@@ -352,7 +293,7 @@ function updateDashboard() {
 }
 
 function rerenderAll() {
-  renderSchedule();
+  renderPaymentsCalendar();
   renderTrips();
   renderExpenses();
   updateDashboard();
@@ -496,7 +437,6 @@ function registerEvents() {
     state.payments.push({ id: crypto.randomUUID(), person, value, date });
     saveState();
     rerenderAll();
-    updateAgendaStatus();
     scheduleCloudSync();
     event.target.reset();
   });
@@ -577,10 +517,8 @@ function hideLoader() {
 }
 
 async function init() {
-  state.schedule = generateSchedule();
   applyMotivationMessage();
   rerenderAll();
-  updateAgendaStatus();
   registerEvents();
   setupPWAInstall();
   initFirebaseIfPossible();

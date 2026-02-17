@@ -199,6 +199,34 @@ input:focus, select:focus {
 .btn.ghost { background: #efe4ff; color: var(--primary); }
 .btn.danger { background: var(--danger); }
 
+.payments-calendar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .6rem;
+}
+.calendar-item {
+  border-radius: 12px;
+  padding: .7rem .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.calendar-item small {
+  display: block;
+  opacity: .9;
+}
+.calendar-empty {
+  list-style: none;
+  color: var(--muted);
+  background: var(--surface-soft);
+  border-radius: 12px;
+  padding: .8rem;
+}
+
+
 .table-wrap { overflow: auto; }
 table { width: 100%; border-collapse: collapse; }
 th, td {
@@ -223,8 +251,8 @@ th { color: var(--muted); font-size: .82rem; text-transform: uppercase; }
   display: inline-block;
 }
 .payment-label.paid {
-  background: #f3e8ff;
-  color: #6b21a8;
+  background: rgba(255, 255, 255, .22);
+  color: #fff;
 }
 .payment-label.neutral {
   background: #f5f3ff;

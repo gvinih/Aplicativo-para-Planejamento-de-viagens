@@ -185,22 +185,10 @@
 
     <section class="card">
       <div class="section-header">
-        <h2>Calendário financeiro (10 meses)</h2>
-        <small>Referência de depósitos: R$ 50 nos dias 5 e 20 para cada pessoa</small>
+        <h2>Calendário dinâmico de pagamentos</h2>
+        <small>Atualizado automaticamente conforme novos pagamentos</small>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Pessoa</th>
-              <th>Valor</th>
-              <th>Pagamento</th>
-            </tr>
-          </thead>
-          <tbody id="depositsTable"></tbody>
-        </table>
-      </div>
+      <ul id="paymentsCalendar" class="payments-calendar"></ul>
     </section>
 
     <section class="grid-2">
@@ -212,15 +200,6 @@
         <h2>Evolução do saldo</h2>
         <canvas id="balanceChart" width="600" height="280" aria-label="Gráfico de evolução do saldo"></canvas>
       </article>
-    </section>
-
-    <section class="card setup-card">
-      <h2>Configuração Firebase (obrigatória para sincronizar entre celulares)</h2>
-      <ol>
-        <li>Abra <strong>script.js</strong> e preencha o objeto <code>FIREBASE_CONFIG</code>.</li>
-        <li>No Firebase Console, crie um projeto e ative o <strong>Firestore Database</strong> em modo produção.</li>
-        <li>Publique estas regras de segurança no Firestore:<br/><code>rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { match /couples/{coupleCode} { allow read, write: if request.resource != null && coupleCode.matches('^[A-Za-z0-9_-]{4,40}$'); } } }</code></li>
-      </ol>
     </section>
   </main>
 
