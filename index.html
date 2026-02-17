@@ -8,6 +8,8 @@
   <title>Planejamento de viagens</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div id="loadingScreen" class="loading-screen" aria-live="polite">
@@ -15,6 +17,21 @@
       <div class="pulse"></div>
       <h1>Planejamento de viagens</h1>
       <p>Preparando seu painel financeiro...</p>
+    </div>
+  </div>
+
+  <div id="coupleGate" class="couple-gate" aria-live="polite">
+    <div class="gate-card">
+      <h2>Entrar no espaço do casal</h2>
+      <p>Use o mesmo código nos dois celulares para compartilhar tudo em tempo real.</p>
+      <form id="coupleForm" class="form">
+        <label>
+          Código do casal
+          <input type="text" id="coupleCodeInput" placeholder="Ex.: VINININA2026" required />
+        </label>
+        <button type="submit" class="btn">Conectar</button>
+      </form>
+      <small id="gateInfo">Os dados locais serão migrados automaticamente ao conectar.</small>
     </div>
   </div>
 
@@ -27,6 +44,7 @@
       </div>
     </div>
     <div class="topbar-actions">
+      <span id="syncStatus" class="sync-pill">Modo local</span>
       <button id="installBtn" class="btn ghost" hidden>Instalar aplicativo</button>
       <button id="resetBtn" class="btn danger">Resetar dados</button>
     </div>
@@ -194,6 +212,15 @@
         <h2>Evolução do saldo</h2>
         <canvas id="balanceChart" width="600" height="280" aria-label="Gráfico de evolução do saldo"></canvas>
       </article>
+    </section>
+
+    <section class="card setup-card">
+      <h2>Configuração Firebase (obrigatória para sincronizar entre celulares)</h2>
+      <ol>
+        <li>Abra <strong>script.js</strong> e preencha o objeto <code>FIREBASE_CONFIG</code>.</li>
+        <li>No Firebase Console, crie um projeto e ative o <strong>Firestore Database</strong> em modo produção.</li>
+        <li>Publique estas regras de segurança no Firestore:<br/><code>rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { match /couples/{coupleCode} { allow read, write: if request.resource != null && coupleCode.matches('^[A-Za-z0-9_-]{4,40}$'); } } }</code></li>
+      </ol>
     </section>
   </main>
 

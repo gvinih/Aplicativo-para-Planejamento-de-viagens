@@ -59,8 +59,39 @@ body {
 }
 .tag { margin: 0; color: var(--muted); font-size: .85rem; }
 .topbar h1 { margin: .1rem 0 0; font-size: 1.4rem; color: var(--primary); }
-.topbar-actions { display: flex; gap: .6rem; }
+.topbar-actions { display: flex; gap: .6rem; align-items: center; }
 
+
+.couple-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  display: grid;
+  place-items: center;
+  background: rgba(34, 14, 51, 0.65);
+  backdrop-filter: blur(4px);
+}
+.couple-gate.hidden { display: none; }
+.gate-card {
+  width: min(520px, 92vw);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(60, 35, 85, 0.25);
+  padding: 1rem;
+}
+.sync-pill {
+  font-size: .78rem;
+  padding: .32rem .58rem;
+  border-radius: 999px;
+  background: #f3e8ff;
+  color: #6b21a8;
+  font-weight: 700;
+}
+.sync-pill.ok { background: #dcfce7; color: #166534; }
+.sync-pill.warn { background: #fff7ed; color: #9a3412; }
+.sync-pill.neutral { background: #f3e8ff; color: #6b21a8; }
+.setup-card ol { margin: .4rem 0 0 1.1rem; }
+.setup-card code { word-break: break-word; }
 .title-group {
   display: flex;
   align-items: center;
@@ -180,6 +211,11 @@ th { color: var(--muted); font-size: .82rem; text-transform: uppercase; }
 .schedule-row.paid {
   background: #f3e8ff;
 }
+.pago {
+  background: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
 .payment-label {
   font-weight: 700;
   border-radius: 10px;
@@ -226,6 +262,7 @@ canvas {
 @media (max-width: 680px) {
   .topbar { flex-direction: column; align-items: flex-start; gap: .6rem; }
   .title-photo { width: 46px; height: 46px; }
+  .topbar-actions { flex-wrap: wrap; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
   .trip-summary { grid-template-columns: 1fr; }
 }
