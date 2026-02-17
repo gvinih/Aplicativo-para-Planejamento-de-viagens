@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#820AD1" />
+  <meta name="description" content="Planejamento financeiro de viagens para casal com depósitos, gastos e metas." />
+  <title>Planejamento de viagens</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="loadingScreen" class="loading-screen" aria-live="polite">
+    <div class="loader-card">
+      <div class="pulse"></div>
+      <h1>Planejamento de viagens</h1>
+      <p>Preparando seu painel financeiro...</p>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="title-group">
+      <img class="title-photo" src="https://marinhoturismobuzios.com.br/wp-content/uploads/2018/10/viagem-internacional-1.jpg" alt="Foto de viagem" />
+      <div>
+        <p class="tag">Planejamento do casal</p>
+        <h1>Planejamento de viagens</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button id="installBtn" class="btn ghost" hidden>Instalar aplicativo</button>
+      <button id="resetBtn" class="btn danger">Resetar dados</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="motivation-card">
+      <p id="motivationText">Vocês estão cada vez mais perto da próxima viagem ❤️</p>
+    </section>
+
+    <section class="cards-grid" aria-label="Resumo financeiro">
+      <article class="card stat">
+        <h3>Saldo total atual</h3>
+        <p id="saldoAtual">R$ 0,00</p>
+      </article>
+      <article class="card stat">
+        <h3>Total Vini</h3>
+        <p id="totalVini">R$ 0,00</p>
+      </article>
+      <article class="card stat">
+        <h3>Total Nina</h3>
+        <p id="totalNina">R$ 0,00</p>
+      </article>
+      <article class="card stat">
+        <h3>Total geral acumulado</h3>
+        <p id="totalGeral">R$ 0,00</p>
+      </article>
+      <article class="card stat">
+        <h3>Total gasto em viagens</h3>
+        <p id="gastoViagens">R$ 0,00</p>
+      </article>
+      <article class="card stat">
+        <h3>Saldo restante</h3>
+        <p id="saldoRestante">R$ 0,00</p>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <h2>Meta do plano (10 meses)</h2>
+        <div class="trip-summary">
+          <div>
+            <small>Economizado</small>
+            <strong id="tripSaved">R$ 0,00</strong>
+          </div>
+          <div>
+            <small>Já gasto</small>
+            <strong id="tripSpent">R$ 0,00</strong>
+          </div>
+          <div>
+            <small>Meta</small>
+            <strong id="tripGoal">R$ 2.000,00</strong>
+          </div>
+        </div>
+        <div class="progress-wrap" role="progressbar" aria-label="Progresso da meta financeira">
+          <div id="tripProgressBar" class="progress-bar"></div>
+        </div>
+        <p id="tripPercent" class="progress-text">0% atingido</p>
+      </article>
+
+      <article class="card">
+        <h2>Registrar pagamento</h2>
+        <form id="paymentForm" class="form">
+          <label>
+            Quem pagou
+            <select id="paymentPerson" required>
+              <option value="">Selecione</option>
+              <option value="Vini">Vini</option>
+              <option value="Nina">Nina</option>
+            </select>
+          </label>
+          <label>
+            Valor pago (R$)
+            <input type="number" id="paymentValue" min="0" step="0.01" placeholder="0,00" required />
+          </label>
+          <label>
+            Data do pagamento
+            <input type="date" id="paymentDate" required />
+          </label>
+          <button type="submit" class="btn">Salvar pagamento</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <h2>Cadastrar viagem</h2>
+        <form id="tripForm" class="form">
+          <label>
+            Nome da viagem
+            <input type="text" id="tripName" placeholder="Ex.: Gramado" required />
+          </label>
+          <label>
+            Data da viagem
+            <input type="date" id="tripDate" required />
+          </label>
+          <button type="submit" class="btn">Salvar viagem</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Viagens cadastradas</h2>
+        <ul id="tripsList" class="expenses-list"></ul>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <h2>Registrar gasto</h2>
+        <form id="expenseForm" class="form">
+          <label>
+            Descrição
+            <input type="text" id="expenseDescription" placeholder="Ex.: Passagens" required />
+          </label>
+          <label>
+            Valor (R$)
+            <input type="number" id="expenseValue" min="0" step="0.01" placeholder="0,00" required />
+          </label>
+          <label>
+            Data
+            <input type="date" id="expenseDate" required />
+          </label>
+          <label>
+            Viagem (opcional)
+            <select id="expenseTripId">
+              <option value="">Sem vínculo</option>
+            </select>
+          </label>
+          <button type="submit" class="btn">Salvar gasto</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Lista de gastos</h2>
+        <ul id="expensesList" class="expenses-list"></ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <h2>Calendário financeiro (10 meses)</h2>
+        <small>Referência de depósitos: R$ 50 nos dias 5 e 20 para cada pessoa</small>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Pessoa</th>
+              <th>Valor</th>
+              <th>Pagamento</th>
+            </tr>
+          </thead>
+          <tbody id="depositsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <h2>Depósitos por pessoa</h2>
+        <canvas id="depositsChart" width="600" height="280" aria-label="Gráfico de depósitos por pessoa"></canvas>
+      </article>
+      <article class="card">
+        <h2>Evolução do saldo</h2>
+        <canvas id="balanceChart" width="600" height="280" aria-label="Gráfico de evolução do saldo"></canvas>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

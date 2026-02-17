@@ -1,0 +1,18 @@
+{
+  "name": "Planejamento de viagens",
+  "short_name": "Viagens",
+  "description": "Planejamento financeiro de viagens para casal.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8f4ff",
+  "theme_color": "#820AD1",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
