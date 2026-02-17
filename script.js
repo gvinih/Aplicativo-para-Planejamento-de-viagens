@@ -12,6 +12,7 @@ const motivationalMessages = [
   "Cada pagamento é um passo para o próximo destino 🚀",
   "Parceria financeira forte, sonhos reais!",
   "Continuem assim: planejamento em casal é poder 💜"
+  "Isso ai minha gata, ainda vamos conhecer esse mundo juntos!"
 ];
 
 const storageKeys = {
@@ -152,3 +153,4 @@ function init() {
 }
 
 init();
+
