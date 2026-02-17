@@ -4,12 +4,13 @@ const PLAN_MONTHS = 10;
 // 1) Preencha com suas credenciais no Firebase Console.
 // 2) Ative Firestore Database.
 const FIREBASE_CONFIG = {
-  apiKey: "COLE_SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyAPiVIeghaQ2t2BEQXZBLZGGI-YkXY999Q",
+  authDomain: "viagem-27f9b.firebaseapp.com",
+  projectId: "viagem-27f9b",
+  storageBucket: "viagem-27f9b.firebasestorage.app",
+  messagingSenderId: "1058015673641",
+  appId: "1:1058015673641:web:9cbe457202f8be1c86cb38"
+  
 };
 
 const motivationalMessages = [
@@ -537,4 +538,5 @@ async function init() {
 }
 
 init();
+
 
