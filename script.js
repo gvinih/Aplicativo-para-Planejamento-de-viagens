@@ -17,7 +17,9 @@ const motivationalMessages = [
   "Disciplina hoje, lembranças incríveis amanhã ✨",
   "Cada pagamento é um passo para o próximo destino 🚀",
   "Parceria financeira forte, sonhos reais!",
-  "Continuem assim: planejamento em casal é poder 💜"
+  "Continuem assim: planejamento em casal é poder 💜",
+  "Isso ai minha gata, vamos conhecer o mundo inteiro juntos!",
+  "Eu te amo minha linda, meu orgulho"
 ];
 
 const storageKeys = {
@@ -406,7 +408,7 @@ function initFirebaseIfPossible() {
       window.firebase.initializeApp(FIREBASE_CONFIG);
     }
     firestoreDb = window.firebase.firestore();
-    firestoreDb.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+    firestoreDb.enablePersistence().catch(() => {});
   } catch (error) {
     console.warn("Falha na inicialização do Firebase", error);
     setSyncStatus("Modo local (erro Firebase)", "warn");
