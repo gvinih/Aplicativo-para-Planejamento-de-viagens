@@ -4,7 +4,7 @@ const DEPOSIT_DAY_VALUES = [
   { day: 20, amount: 50 }
 ];
 const PLAN_MONTHS = 10;
-const START_DATE = new Date(2025, 0, 1);
+const START_DATE = new Date(2025, 1, 20);
 
 // 1) Preencha com suas credenciais no Firebase Console.
 // 2) Ative Firestore Database.
@@ -104,22 +104,35 @@ function saveState(markUpdated = true) {
   localStorage.setItem(storageKeys.coupleCode, state.coupleCode || "");
 }
 
+function toIsoLocal(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const d = String(dateObj.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 function generateSchedule() {
   const rows = [];
+
   for (let i = 0; i < PLAN_MONTHS; i++) {
     const currentDate = new Date(START_DATE.getFullYear(), START_DATE.getMonth() + i, 1);
+
     DEPOSIT_DAY_VALUES.forEach(({ day, amount }) => {
       ["Vini", "Nina"].forEach((person) => {
-        const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        const dateObj = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        if (dateObj < START_DATE) return;
+
+        const isoDate = toIsoLocal(dateObj);
         rows.push({
-          id: `${date.toISOString().slice(0, 10)}-${person.toLowerCase()}`,
-          date: date.toISOString().slice(0, 10),
+          id: `${isoDate}-${person.toLowerCase()}`,
+          date: isoDate,
           person,
           amount
         });
       });
     });
   }
+
   return rows.sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
